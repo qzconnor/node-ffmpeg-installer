@@ -2,6 +2,7 @@
 
 var os = require('os');
 var path = require('path');
+var { fileURLToPath } = require("url");
 
 var verifyFile = require('./lib/verify-file');
 
@@ -15,9 +16,11 @@ if (!require('./package.json').optionalDependencies[packageName]) {
 
 var binary = os.platform() === 'win32' ? 'ffmpeg.exe' : 'ffmpeg';
 
-var topLevelPath = path.resolve(__dirname.substr(0, __dirname.indexOf('node_modules')), 'node_modules', '@ffmpeg-installer', platform);
-var npm3Path = path.resolve(__dirname, '..', platform);
-var npm2Path = path.resolve(__dirname, 'node_modules', '@ffmpeg-installer', platform);
+var dirname = path.dirname(fileURLToPath(import.meta.url));
+
+var topLevelPath = path.resolve(dirname.substr(0, dirname.indexOf('node_modules')), 'node_modules', '@ffmpeg-installer', platform);
+var npm3Path = path.resolve(dirname, '..', platform);
+var npm2Path = path.resolve(dirname, 'node_modules', '@ffmpeg-installer', platform);
 
 var topLevelBinary = path.join(topLevelPath, binary);
 var npm3Binary = path.join(npm3Path, binary);
